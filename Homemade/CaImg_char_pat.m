@@ -10,7 +10,7 @@ function [char_OldNew_pat,varargout] = CaImg_char_pat(char_category,varargin)
 
 
     %% main contents
-    switch CatType
+    switch char_category
     case 'stimulation'
         % char_OldNew_pat.cat_type = 'stim_name';
         % char_OldNew_pat.cat_names = {'og', 'ap'};
@@ -19,9 +19,9 @@ function [char_OldNew_pat,varargout] = CaImg_char_pat(char_category,varargin)
         % char_OldNew_pat.cat_type = 'stim_name';
         char_OldNew_pat.new = {'og', 'ap'};
         char_OldNew_pat.old = {{'OG-LED'}, {'AP','AP_GPIO-1'}};
-    case 'event'
+    case 'event_group'
         % char_OldNew_pat.cat_type = 'peak_category'; % 'fovID', 'peak_category'
-        char_OldNew_pat.new = {'spon', 'trig', 'trig-AP', 'opto-delay', 'rebound'}; % new category names
+        char_OldNew_pat.new = {'spon', 'trig', 'trig-ap', 'opto-delay', 'rebound'}; % new category names
         cat_num = numel(char_OldNew_pat.new);
         char_OldNew_pat.old = cell(cat_num, 1); % each cell contains old categories which will be grouped together
         char_OldNew_pat.old{1} = {'noStim', 'beforeStim', 'interval',...

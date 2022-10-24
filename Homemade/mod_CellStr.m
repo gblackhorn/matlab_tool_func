@@ -22,6 +22,14 @@ function [newCellStr,varargout] = mod_CellStr(CellStr,OldPat,NewPat,varargin)
 
 	newCellStr = CellStr;
 	for n = 1:num_OldPat
-		newCellStr = replace(newCellStr,OldPat{n},NewPat{n});
+		num_SubOldPat = numel(OldPat{n});
+		for sn = 1:num_SubOldPat
+			tf_loc = find(strcmpi(newCellStr,OldPat{n}{sn}));
+			if ~isempty(tf_loc)
+				[newCellStr{tf_loc}] = deal(NewPat{n});
+				% break
+			end
+		end
+		% newCellStr = replace(newCellStr,OldPat{n},NewPat{n});
 	end
 end

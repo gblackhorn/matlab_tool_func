@@ -29,6 +29,6 @@ function [newTBLorSTRUCT,varargout] = mod_str_TBLorSTRUCT(TBLorSTRUCT,VARorFIELD
 	if var_type == 1 % table
 		newTBLorSTRUCT.(VARorFIELD) = newCellStr;
 	elseif var_type == 2 % structure
-		[TBLorSTRUCT.(VARorFIELD)] = newCellStr{:};
+		[newTBLorSTRUCT.(VARorFIELD)] = newCellStr{:};
 	end
 end
