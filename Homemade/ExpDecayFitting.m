@@ -5,6 +5,14 @@ function [yfit,varargout] = ExpDecayFitting(xdata,ydata,varargin)
 	% Defaults
 	PlotFit = false; % true/false. Plot the input data and the fitted data to examing the fitting
 
+	% Options
+	for ii = 1:2:(nargin-2)
+	    if strcmpi('PlotFit', varargin{ii})
+	        PlotFit = varargin{ii+1};
+	    end
+	end
+
+
 	% Define the objective function for fminsearch as a function of x alone
 	% sse = sum(ydata-A*exp(-lambda*xdata)).^2);
 	fun = @(x)sseval(x,xdata,ydata); % sseval: calculate the sum of squared errors with given A and lambda (x(1) and x(2)). 
@@ -14,7 +22,7 @@ function [yfit,varargout] = ExpDecayFitting(xdata,ydata,varargin)
 
 	A = bestx(1);
 	lambda = bestx(2);
-	yfit = A*exp(-lambda*tdata); % the fitted data
+	yfit = A*exp(-lambda*xdata); % the fitted data
 
 	% A and lambda are used to define the expoential decay curve y(x) = A*exp(-lambda*x)
 	varargout{1}.A = A;
@@ -22,7 +30,7 @@ function [yfit,varargout] = ExpDecayFitting(xdata,ydata,varargin)
 
 	if PlotFit
 		f_title = 'data and fitting to exponential decay';
-		f_fit = figure(1,'unit_height',0.2,'fig_name',f_title);
+		f_fit = fig_canvas(1,'unit_height',0.2,'fig_name',f_title);
 		plot(xdata,ydata,'*');
 		hold on
 		plot(xdata,yfit,'r');
