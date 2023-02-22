@@ -24,7 +24,7 @@ function [StringCell,varargout] = NumArray2StringCell(varargin)
         LastNum = FirstNum+str_num-1;
         NumArray = [FirstNum:1:LastNum];
         StringCell = arrayfun(@num2str,NumArray,'UniformOutput',0);
-    else numel(varargin{1})>1 % if the first input is an array, i.e., there are multiple numbers in it.
+    elseif numel(varargin{1})>1 % if the first input is an array, i.e., there are multiple numbers in it.
         StringCell = arrayfun(@num2str,varargin{1},'UniformOutput',0); % convert the inputted number array to strings in cell directly
     end
 end

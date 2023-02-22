@@ -46,18 +46,26 @@ function [fig_handle,varargout] = fig_canvas(AxesNum,varargin)
     %% main contents
     if AxesNum <= column_lim
         fig_width = unit_width*AxesNum;
+        col_num = AxesNum;
     else
         fig_width = unit_width*column_lim;
+        col_num = column_lim;
     end
 
+    
     if AxesNum <= column_lim*row_lim
         fig_height = unit_height*ceil(AxesNum/column_lim);
+        row_num = ceil(AxesNum/column_lim);
     else
         fig_height = unit_height*row_lim;
+        row_num = row_lim;
     end
 
     fig_handle = figure('Name', fig_name);
     set(gcf,'Units','normalized',...
         'Position',[pos_left pos_bottom fig_width fig_height]);
+
+    varargout{1} = row_num;
+    varargout{2} = col_num;
 end
 
