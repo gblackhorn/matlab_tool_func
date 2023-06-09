@@ -27,7 +27,7 @@ function [char_OldNew_pat,varargout] = CaImg_char_pat(char_category,varargin)
         char_OldNew_pat.old{1} = {'noStim', 'beforeStim', 'interval',...
             'beforeStim-beforeStim', 'interval-interval'}; % spon
         char_OldNew_pat.old{2} = {'trigger', 'trigger-beforeStim', 'trigger-interval'}; % trig
-        char_OldNew_pat.old{3} = {'delay-trigger'}; % trig-AP
+        char_OldNew_pat.old{3} = {'delay-trigger','trigger-trigger'}; % trig-AP
         char_OldNew_pat.old{4} = {'delay', 'delay-rebound', 'delay-interval', 'delay-beforeStim'}; % delay. 'delay-delay', 
         char_OldNew_pat.old{5} = {'rebound', 'rebound-interval'}; % rebound
     end
