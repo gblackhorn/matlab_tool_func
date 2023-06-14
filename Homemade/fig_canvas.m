@@ -11,8 +11,8 @@ function [fig_handle,varargout] = fig_canvas(AxesNum,varargin)
     unit_height = 0.4; % normalized the the size of display
     max_width = 0.9;
     max_height = 0.9;
-    pos_left = 0.1;
-    pos_bottom = 0.1;
+    pos_left = 0.05;
+    pos_bottom = 0.01;
 
 
     % AxesNum does not have effect on figure size when it is bigger than the product of column_lim and row_lim
