@@ -697,7 +697,17 @@ classdef Violin < handle
             value = value(value >= min(data) & value <= max(data));
             value(1) = min(data);
             value(end) = max(data);
-            value = [value(1)*(1-1E-5), value, value(end)*(1+1E-5)];
+
+            % % original code
+            % value = [value(1)*(1-1E-5), value, value(end)*(1+1E-5)];
+
+            % GD customized
+            if value(1) ~= 0
+                value = [value(1)*(1-1E-5), value, value(end)*(1+1E-5)];
+            else
+                value = [-(1E-5)*(1-1E-5), value, value(end)*(1+1E-5)];
+            end
+
             density = [0, density, 0];
             
             % all data is identical
