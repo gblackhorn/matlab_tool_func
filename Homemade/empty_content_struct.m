@@ -1,8 +1,8 @@
 function [new_struct] = empty_content_struct(field_names,entry_num,varargin)
     % Creat a structure var with empty content
 
-    % default size is (entry_num, 1). Use varargin{3} (sizeDirection) to decide if the keep the
-    % default (1) or use (1, entry_num) with 2 as input
+    % default size is (entry_num, 1). Use varargin{3} (sizeDirection) to choose between vertical or
+    % horizontal structure: [1] vertical as default: (entry_num, 1). [2] horizontal: (1, entry_num)
 
     % field_names: 'Char' or 'cell'. Name(s) of fields.
     % entry_num: Number of entries
@@ -15,7 +15,7 @@ function [new_struct] = empty_content_struct(field_names,entry_num,varargin)
     if nargin == 2
         sizeDirection = 1;
     elseif nargin == 3
-        sizeDirection = varargin{3};
+        sizeDirection = varargin{1};
     end
 
 
@@ -35,7 +35,7 @@ function [new_struct] = empty_content_struct(field_names,entry_num,varargin)
             elseif sizeDirection == 2
                 cellarray = cell(entry_num,fn_num);
             end
-            new_struct = cell2struct(cellarray,field_names);
+            new_struct = cell2struct(cellarray,field_names,sizeDirection);
         end
     end
 end
