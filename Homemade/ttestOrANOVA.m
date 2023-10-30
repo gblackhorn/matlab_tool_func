@@ -100,9 +100,13 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
                 [pVal,hVal] = signrank(dataCell{1},dataCell{2});
                 statInfo.method = 'Wilcoxon Signed Rank test for paired data';
             else
-                % Wilcoxon Rank Sum test (Mann-Whitney U test)
-                [pVal,hVal] = ranksum(dataCell{1},dataCell{2});
-                statInfo.method = 'Wilcoxon Rank Sum test for unpaired data';
+                % % Wilcoxon Rank Sum test (Mann-Whitney U test)
+                % [pVal,hVal] = ranksum(dataCell{1},dataCell{2});
+                % statInfo.method = 'Wilcoxon Rank Sum test for unpaired data';
+
+                % two-sample Kolmogorov-Smirnov test
+                [hVal,pVal] = kstest2(dataCell{1},dataCell{2});
+                statInfo.method = 'two-sample Kolmogorov-Smirnov test';
             end
         end
 
