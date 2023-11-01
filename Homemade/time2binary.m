@@ -20,7 +20,7 @@ function [binaryVector,varargout] = time2binary(timePoints,maxTime,binSize,varar
 
 
 	% Initialize binary vector
-	binaryVector = zeros(ceil(max_time/bin_size),1);
+	binaryVector = zeros(ceil(maxTime/binSize),1);
 
 	% Get the index timePoints in the binaryVector
 	timePointsIDX = ceil(timePoints/binSize);

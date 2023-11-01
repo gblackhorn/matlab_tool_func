@@ -7,6 +7,10 @@ function [new_struct] = empty_content_struct(field_names,entry_num,varargin)
     % field_names: 'Char' or 'cell'. Name(s) of fields.
     % entry_num: Number of entries
 
+    % example: create a length 5 structure with fields 'stim' and 'startTime'
+        % fieldNames = {'stim','startTime'}
+        % exampleStruct = empty_content_struct(fieldNames,5);
+
     if isa(field_names,'char')
         field_names = {field_names};
     end
