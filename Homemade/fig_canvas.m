@@ -8,7 +8,7 @@ function [fig_handle,varargout] = fig_canvas(AxesNum,varargin)
 
     % Defaults
     unit_width = 0.2; % normalized the the size of display
-    unit_height = 0.4; % normalized the the size of display
+    unit_height = 0.3; % normalized the the size of display
     max_width = 0.9;
     max_height = 0.9;
     pos_left = 0.05;
@@ -18,7 +18,7 @@ function [fig_handle,varargout] = fig_canvas(AxesNum,varargin)
     % AxesNum does not have effect on figure size when it is bigger than the product of column_lim and row_lim
     % Recommendation: Use AxesNum <= column_lim*row_lim 
     column_lim = 4; 
-    row_lim = 2; 
+    row_lim = 4; 
 
     fig_name = '';
 
@@ -51,6 +51,9 @@ function [fig_handle,varargout] = fig_canvas(AxesNum,varargin)
         fig_width = unit_width*column_lim;
         col_num = column_lim;
     end
+    if fig_width > max_width
+        fig_width = max_width;
+    end
 
     
     if AxesNum <= column_lim*row_lim
@@ -60,6 +63,10 @@ function [fig_handle,varargout] = fig_canvas(AxesNum,varargin)
         fig_height = unit_height*row_lim;
         row_num = row_lim;
     end
+    if fig_height > max_height
+        fig_height = max_height;
+    end
+
 
     fig_handle = figure('Name', fig_name);
     set(gcf,'Units','normalized',...
