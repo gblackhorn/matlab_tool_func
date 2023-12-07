@@ -1,10 +1,14 @@
-function [fig_handle,varargout] = fig_canvas(AxesNum,varargin)
+function [figHandle,varargout] = fig_canvas(AxesNum,varargin)
     % Creat an empty figure handle with customized size and name
     % The size of the figure increases with AxesNum
 
     % unitSize: double element vector defining the size of minimum figure. 
     %   [width height] (normalized to the display).
     % AxesNum: the size of figure increases with AxesNum. 
+
+    % example:
+    %   [f,f_rowNum,f_colNum] = fig_canvas(16,'unit_width',0.2,'unit_height',0.3,...
+        % 'row_lim',3,'column_lim',1);
 
     % Defaults
     unit_width = 0.2; % normalized the the size of display
@@ -40,6 +44,8 @@ function [fig_handle,varargout] = fig_canvas(AxesNum,varargin)
             row_lim = varargin{ii+1};
         elseif strcmpi('fig_name', varargin{ii})
             fig_name = varargin{ii+1};
+        elseif strcmpi('figHandle', varargin{ii})
+            figHandle = varargin{ii+1};
         end
     end
 
@@ -67,8 +73,15 @@ function [fig_handle,varargout] = fig_canvas(AxesNum,varargin)
         fig_height = max_height;
     end
 
+    if exist('figHandle','var')  
+        if ~isa(figHandle, 'matlab.ui.Figure')
+            error('The varargin figHandle must be a handle of a figure')
+        end
+        figHandle;
+    else
+        figHandle = figure('Name', fig_name);
+    end
 
-    fig_handle = figure('Name', fig_name);
     set(gcf,'Units','normalized',...
         'Position',[pos_left pos_bottom fig_width fig_height]);
 
