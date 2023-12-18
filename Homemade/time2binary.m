@@ -19,6 +19,9 @@ function [binaryVector,varargout] = time2binary(timePoints,maxTime,binSize,varar
 	% end
 
 
+	% Get the number of timePoints
+	timePointsNum = numel(timePoints);
+
 	% Initialize binary vector
 	binaryVector = zeros(ceil(maxTime/binSize),1);
 
@@ -27,4 +30,7 @@ function [binaryVector,varargout] = time2binary(timePoints,maxTime,binSize,varar
 
 	% Fill in binaryVector
 	binaryVector(timePointsIDX) = 1;
+
+	% Output the number of timePoints as a varargout
+	varargout{1} = timePointsNum;
 end
