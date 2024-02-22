@@ -14,7 +14,7 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
     % Optionals
     for ii = 1:2:(nargin-1)
         if strcmpi('groupNames', varargin{ii})
-            groupNames = varargin{ii+1}; % struct var including fields 'cat_type', 'cat_names' and 'cat_merge'
+            groupNames = varargin{ii+1}; 
         elseif strcmpi('pairedData', varargin{ii})
             pairedData = varargin{ii+1};
         elseif strcmpi('forceParametric', varargin{ii})
