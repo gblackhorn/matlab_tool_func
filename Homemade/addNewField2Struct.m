@@ -1,13 +1,14 @@
 function newStructVar = addNewField2Struct(structVar,newFieldName,newFieldContent)
     % Add a new field to an existing structure variable
 
-    % structVar: a existing structure variable
+    % structVar: A existing structure variable
 
-    % newFieldName: a string var, such as 'newFieldName'
+    % newFieldName: A string var, such as 'newFieldName'
 
-    % newFieldContent: content used to fill the new field. If the size is 1*1, all entries of the
-    % new field will contain the same content. If the length of it is the same as the structVar,
-    % assign the content to every entry (must be a cell array)
+    % newFieldContent: A single value (double, string, etc.) or a cell array. Content used to fill
+    % the new field. If the size is 1*1, all entries of the new field will contain the same
+    % content. If the length of it is the same as the structVar, assign the content to every entry
+    % (must be a cell array)
 
 
     newStructVar = structVar;
