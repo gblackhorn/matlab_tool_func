@@ -30,8 +30,10 @@ function [firstClosestIDX,varargout] = getFirstClosest_multiWin(fullArray,idealV
         end
     end
 
-
+    % Pre-allocate memory
     firstClosestIDX = NaN(size(idealValues));
+
+    % Loop through all the ideal values and find their closest couple in the fullArray
     for n = 1:length(idealValues)
         switch bigOrSmall
             case 'big'
@@ -47,7 +49,6 @@ function [firstClosestIDX,varargout] = getFirstClosest_multiWin(fullArray,idealV
             firstValIDX = NaN;
         end
         
-        % firstValIDX = find(fullArray(winRange(n,1):winRange(n,2))>=idealValues(n),1);
 
         % [diff_value, loc_in_window] = min(abs(roi_trace(window_range(n, 1):window_range(n, 2))-idealValues(n)));
         firstClosestIDX(n) = winRange(n, 1)-1+firstValIDX;
