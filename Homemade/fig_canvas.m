@@ -10,46 +10,61 @@ function [figHandle,varargout] = fig_canvas(AxesNum,varargin)
     %   [f,f_rowNum,f_colNum] = fig_canvas(16,'unit_width',0.2,'unit_height',0.3,...
         % 'row_lim',3,'column_lim',1);
 
-    % Defaults
-    unit_width = 0.2; % normalized the the size of display
-    unit_height = 0.3; % normalized the the size of display
-    max_width = 0.9;
-    max_height = 0.9;
-    pos_left = 0.05;
-    pos_bottom = 0.01;
+
+    % Define default values
+    defaults = struct(...
+        'unit_width', 0.2, ...
+        'unit_height', 0.3, ...
+        'max_width', 0.9, ...
+        'max_height', 0.9, ...
+        'pos_left', 0.05, ...
+        'pos_bottom', 0.01, ...
+        'column_lim', 4, ...
+        'row_lim', 4, ...
+        'fig_name', '', ...
+        'figHandle', [] ...
+    );
+
+    % Create an inputParser object
+    p = inputParser;
+
+    % Define optional parameters and their default values
+    addParameter(p, 'unit_width', defaults.unit_width);
+    addParameter(p, 'unit_height', defaults.unit_height);
+    addParameter(p, 'max_width', defaults.max_width);
+    addParameter(p, 'max_height', defaults.max_height);
+    addParameter(p, 'pos_left', defaults.pos_left);
+    addParameter(p, 'pos_bottom', defaults.pos_bottom);
+    addParameter(p, 'column_lim', defaults.column_lim);
+    addParameter(p, 'row_lim', defaults.row_lim);
+    addParameter(p, 'fig_name', defaults.fig_name);
+    addParameter(p, 'figHandle', defaults.figHandle);
+
+    % Parse the input arguments
+    parse(p, varargin{:});
+
+    % Access the parsed results
+    unit_width = p.Results.unit_width;
+    unit_height = p.Results.unit_height;
+    max_width = p.Results.max_width;
+    max_height = p.Results.max_height;
+    pos_left = p.Results.pos_left;
+    pos_bottom = p.Results.pos_bottom;
+    column_lim = p.Results.column_lim;
+    row_lim = p.Results.row_lim;
+    fig_name = p.Results.fig_name;
+    figHandle = p.Results.figHandle;
 
 
-    % AxesNum does not have effect on figure size when it is bigger than the product of column_lim and row_lim
-    % Recommendation: Use AxesNum <= column_lim*row_lim 
-    column_lim = 4; 
-    row_lim = 4; 
 
-    fig_name = '';
-
-    % debug_mode = false; % true/false
-
-    % Options
-    for ii = 1:2:(nargin-1)
-        if strcmpi('unit_width', varargin{ii})
-            unit_width = varargin{ii+1};
-        elseif strcmpi('unit_height', varargin{ii})
-            unit_height = varargin{ii+1};
-        elseif strcmpi('pos_left', varargin{ii})
-            pos_left = varargin{ii+1};
-        elseif strcmpi('pos_bottom', varargin{ii})
-            pos_bottom = varargin{ii+1};
-        elseif strcmpi('column_lim', varargin{ii})
-            column_lim = varargin{ii+1};
-        elseif strcmpi('row_lim', varargin{ii})
-            row_lim = varargin{ii+1};
-        elseif strcmpi('fig_name', varargin{ii})
-            fig_name = varargin{ii+1};
-        elseif strcmpi('figHandle', varargin{ii})
-            figHandle = varargin{ii+1};
-        end
+    % Validate figHandle and create a new figure if necessary
+    if isempty(figHandle)
+        figHandle = figure('Name', fig_name);
+    elseif ~ishghandle(figHandle, 'figure')
+        error('The varargin figHandle must be a handle of a figure');
     end
 
-    %% main contents
+    % Use the default values and inputs to decide the size of the figure
     if AxesNum <= column_lim
         fig_width = unit_width*AxesNum;
         col_num = AxesNum;
@@ -73,15 +88,8 @@ function [figHandle,varargout] = fig_canvas(AxesNum,varargin)
         fig_height = max_height;
     end
 
-    if exist('figHandle','var')  
-        if ~isa(figHandle, 'matlab.ui.Figure')
-            error('The varargin figHandle must be a handle of a figure')
-        end
-        figHandle;
-    else
-        figHandle = figure('Name', fig_name);
-    end
 
+    % Adjust the figure size
     set(gcf,'Units','normalized',...
         'Position',[pos_left pos_bottom fig_width fig_height]);
 
