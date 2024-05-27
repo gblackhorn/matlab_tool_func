@@ -19,10 +19,6 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
             pairedData = varargin{ii+1};
         elseif strcmpi('forceParametric', varargin{ii})
             forceParametric = varargin{ii+1};
-        % elseif strcmpi('save_dir', varargin{ii})
-        %     save_dir = varargin{ii+1};
-        % elseif strcmpi('gui_save', varargin{ii})
-        %     gui_save = varargin{ii+1};
         end
     end 
 
@@ -60,18 +56,6 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
         % two-sample ttest if group number is 2
         statInfo = empty_content_struct({'method','group1','group2','p','h'},1);
 
-        % % check normallity
-        % normDistrTF = true;
-        % for n = 1:groupNum
-        %     % Run the Shapiro-Wilk parametric hypothesis test of composite normality to check the
-        %     % normality of data
-        %     [hVal_sw,pVal_sw] = swtest(dataCell{n});
-        %     if hVal_sw == 1
-        %         normDistrTF = false;
-        %         break
-        %     end
-        % end
-
         % mark data as 'unpaired' if the number of data points are different 
         if numel(dataCell(1)) ~= numel(dataCell(2))
             pairedData = false;
@@ -88,11 +72,6 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
                 [hVal,pVal] = ttest2(dataCell{1},dataCell{2});
                 statInfo.method = 'unpaired ttest';
             end
-            % if ~pairedData
-            %     [pVal,hVal] = unpaired_ttest_cellArray(dataCell(1),...
-            %         dataCell(2));
-            %     statInfo.method = 'two-sample ttest';
-            % end
         else
             % run non-parametric test
             if pairedData
