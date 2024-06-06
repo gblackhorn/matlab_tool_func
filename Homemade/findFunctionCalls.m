@@ -10,6 +10,9 @@ function callerFiles = findFunctionCalls(targetFolder, targetFunction)
     %
     %   Output:
     %   - callerFiles: A cell array of paths to .m files that call the specified function.
+    %
+    %   Example:
+    %   - findFunctionCalls('D:\guoda\Documents\MATLAB\Codes', 'barplot_with_stat');
 
     % Get list of all .m files in the target folder and subfolders
     fileList = dir(fullfile(targetFolder, '**', '*.m'));
