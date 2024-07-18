@@ -44,10 +44,15 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
     for n = 1:groupNum
         % Run the Shapiro-Wilk parametric hypothesis test of composite normality to check the
         % normality of data
-        [hVal_sw,pVal_sw] = swtest(dataCell{n});
-        if hVal_sw == 1
+        if length(unique(dataCell{n})) == 1
+            % When all the data in dataCell{n} are the same, function 'swtest' will fail to execute
             normDistrTF = false;
-            break
+        else
+            [hVal_sw,pVal_sw] = swtest(dataCell{n});
+            if hVal_sw == 1
+                normDistrTF = false;
+                break
+            end
         end
     end
 
