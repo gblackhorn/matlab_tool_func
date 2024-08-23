@@ -5,25 +5,36 @@ function latexText = tableToLatex(tbl, varargin)
     addParameter(p, 'filename', 'table_output.tex', @ischar);  % Filename for the output .tex file
     addParameter(p, 'caption', 'Your caption here', @ischar);  % Caption for the LaTeX table
     addParameter(p, 'label', 'tab:tableLabel', @ischar);  % Label for the LaTeX table
+    addParameter(p, 'columnAdjust', '', @ischar);  % Optional input for column adjustments
     parse(p, varargin{:});
     
     saveToFile = p.Results.saveToFile;
     filename = p.Results.filename;
     caption = p.Results.caption;
     label = p.Results.label;
+    columnAdjust = p.Results.columnAdjust;
     
     % Initialize an empty string to store the LaTeX text
     latexText = '';
 
-    % Add the LaTeX landscape environment and the beginning of the table environment
-    % latexText = sprintf('%s\\begin{landscape}\n', latexText);
+    % Add the LaTeX table environment
     latexText = sprintf('%s\\begin{table}[htbp]\n', latexText);
-    latexText = sprintf('%s\\caption{%s}\n', latexText, caption);  % Move caption to the beginning
+    latexText = sprintf('%s\\caption{%s}\n', latexText, caption);  % Caption at the beginning
     latexText = sprintf('%s\\centering\n', latexText);
     
     % Determine the number of columns and create the tabularx format string
     numColumns = width(tbl);
-    colFormat = ['X|X|', repmat('c|', 1, numColumns-2)];
+    
+    % Adjust column format based on 'columnAdjust' input
+    if isempty(columnAdjust) || length(columnAdjust) ~= numColumns
+        colFormat = repmat('X|', 1, numColumns);  % Default to X for all columns
+    else
+        colFormat = '';
+        for i = 1:numColumns
+            colFormat = [colFormat, columnAdjust(i), '|']; %#ok<AGROW>
+        end
+    end
+    
     latexText = sprintf('%s\\begin{tabularx}{\\linewidth}{|%s}\n', latexText, colFormat);
     latexText = sprintf('%s\\hline\n', latexText);
     
@@ -71,7 +82,6 @@ function latexText = tableToLatex(tbl, varargin)
     latexText = sprintf('%s\\end{tabularx}\n', latexText);
     latexText = sprintf('%s\\label{%s}\n', latexText, label);  % Keep label at the end
     latexText = sprintf('%s\\end{table}\n', latexText);
-    % latexText = sprintf('%s\\end{landscape}\n', latexText);  % End landscape environment
     
     % Optionally save to a .tex file
     if saveToFile
@@ -85,7 +95,6 @@ function latexText = tableToLatex(tbl, varargin)
         fprintf('LaTeX table saved to %s\n', filename);
     end
 end
-
 
 function safeStr = escapeLatexCharacters(str)
     % Replace LaTeX special characters with their safe equivalents
@@ -103,6 +112,4 @@ function safeStr = escapeLatexCharacters(str)
     safeStr = strrep(safeStr, '$', '\$');              % Dollar sign
     safeStr = strrep(safeStr, '#', '\#');              % Hash
 end
-
-
 
