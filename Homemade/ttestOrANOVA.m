@@ -59,7 +59,7 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
     % run test for two or multiple groups
     if groupNum == 2 
         % two-sample ttest if group number is 2
-        statInfo = empty_content_struct({'method','group1','group2','p','h'},1);
+        statInfo = empty_content_struct({'Method','Group1','Group2','p','h'},1);
 
         % mark data as 'unpaired' if the number of data points are different 
         if numel(dataCell(1)) ~= numel(dataCell(2))
@@ -90,7 +90,7 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
 
                 % two-sample Kolmogorov-Smirnov test
                 [hVal,pVal] = kstest2(dataCell{1},dataCell{2});
-                statInfo.method = 'two-sample Kolmogorov-Smirnov test';
+                statInfo.method = 'Two-sample Kolmogorov-Smirnov test';
             end
         end
 
@@ -102,7 +102,7 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
         % Create a table with variable names 'group1','group2','p' and 'h'
         % This can be plotted using plotUItable.m
         statTab = table(groupNames(1),groupNames(2),pVal,hVal,...
-            'VariableNames',{'group1','group2','p', 'h'});
+            'VariableNames',{'Group1','Group2','p', 'h'});
         statTitle = statInfo.method;
 
     elseif numel(dataCell) > 2 
