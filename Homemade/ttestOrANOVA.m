@@ -57,9 +57,10 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
     end
 
     % run test for two or multiple groups
+    statInfoFieldNames = {'Method','Group1','Group2','p','h'};
     if groupNum == 2 
         % two-sample ttest if group number is 2
-        statInfo = empty_content_struct({'Method','Group1','Group2','p','h'},1);
+        statInfo = empty_content_struct(statInfoFieldNames,1);
 
         % mark data as 'unpaired' if the number of data points are different 
         if numel(dataCell(1)) ~= numel(dataCell(2))
@@ -71,18 +72,18 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
             if pairedData 
                 % paired ttest
                 [hVal,pVal] = ttest(dataCell{1},dataCell{2});
-                statInfo.method = 'paired ttest';
+                statInfo.(statInfoFieldNames{1}) = 'paired ttest';
             else
                 % unpaired ttest
                 [hVal,pVal] = ttest2(dataCell{1},dataCell{2});
-                statInfo.method = 'unpaired ttest';
+                statInfo.(statInfoFieldNames{1}) = 'unpaired ttest';
             end
         else
             % run non-parametric test
             if pairedData
                 % Wilcoxon Signed Rank test 
                 [pVal,hVal] = signrank(dataCell{1},dataCell{2});
-                statInfo.method = 'Wilcoxon Signed Rank test for paired data';
+                statInfo.(statInfoFieldNames{1}) = 'Wilcoxon Signed Rank test for paired data';
             else
                 % % Wilcoxon Rank Sum test (Mann-Whitney U test)
                 % [pVal,hVal] = ranksum(dataCell{1},dataCell{2});
@@ -90,20 +91,20 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
 
                 % two-sample Kolmogorov-Smirnov test
                 [hVal,pVal] = kstest2(dataCell{1},dataCell{2});
-                statInfo.method = 'Two-sample Kolmogorov-Smirnov test';
+                statInfo.(statInfoFieldNames{1}) = 'Two-sample Kolmogorov-Smirnov test';
             end
         end
 
-        statInfo.group1 = groupNames{1};
-        statInfo.group2 = groupNames{2};
-        statInfo.p = pVal;
-        statInfo.h = hVal;
+        statInfo.(statInfoFieldNames{2}) = groupNames{1};
+        statInfo.(statInfoFieldNames{3}) = groupNames{2};
+        statInfo.(statInfoFieldNames{4}) = pVal;
+        statInfo.(statInfoFieldNames{5}) = hVal;
 
         % Create a table with variable names 'group1','group2','p' and 'h'
         % This can be plotted using plotUItable.m
         statTab = table(groupNames(1),groupNames(2),pVal,hVal,...
             'VariableNames',{'Group1','Group2','p', 'h'});
-        statTitle = statInfo.method;
+        statTitle = statInfo.(statInfoFieldNames{1});
 
     elseif numel(dataCell) > 2 
         % one-way ANOVA with tucky multiple comparison   
