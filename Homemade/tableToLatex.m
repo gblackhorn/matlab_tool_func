@@ -82,6 +82,10 @@ function latexText = tableToLatex(tbl, varargin)
     latexText = sprintf('%s\\end{tabularx}\n', latexText);
     latexText = sprintf('%s\\label{%s}\n', latexText, label);  % Keep label at the end
     latexText = sprintf('%s\\end{table}\n', latexText);
+
+    % Add the FloatBarrier directive to ensure table placement
+    latexText = sprintf('%s%% Force LaTeX to place this table before continuing\n', latexText);
+    latexText = sprintf('%s\\FloatBarrier\n', latexText);
     
     % Optionally save to a .tex file
     if saveToFile
