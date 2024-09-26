@@ -84,8 +84,8 @@ function latexText = tableToLatex(tbl, varargin)
     latexText = sprintf('%s\\end{table}\n', latexText);
 
     % Add the FloatBarrier directive to ensure table placement
-    latexText = sprintf('%s%% Force LaTeX to place this table before continuing\n', latexText);
-    latexText = sprintf('%s\\FloatBarrier\n', latexText);
+    % latexText = sprintf('%s%% Force LaTeX to place this table before continuing\n', latexText);
+    latexText = sprintf('%s\\FloatBarrier %% Force LaTeX to place this table before continuing\n', latexText);
     
     % Optionally save to a .tex file
     if saveToFile
