@@ -28,12 +28,12 @@ function reorderLatexTable(inputFile, outputFile, newHeaderOrder)
     postTableContent = strtrim(fileContent(tableEnd+1:end));
 
     % Split the table content into lines
-    lines = strsplit(tableContent, '\n');
-    lines = lines(~cellfun('isempty', lines));  % Remove empty entries
+    tableLines = strsplit(tableContent, '\n');
+    tableLines = tableLines(~cellfun('isempty', tableLines));  % Remove empty entries
 
     % Find the header line index
-    headerIdx = find(~cellfun('isempty', regexp(lines, '&')) & ~contains(lines, '\hline'), 1);
-    headerLine = lines{headerIdx};
+    headerIdx = find(~cellfun('isempty', regexp(tableLines, '&')) & ~contains(tableLines, '\hline'), 1);
+    headerLine = tableLines{headerIdx};
 
     % Extract and clean headers
     headers = strsplit(strtrim(headerLine), ' & ');
@@ -47,19 +47,19 @@ function reorderLatexTable(inputFile, outputFile, newHeaderOrder)
     end
 
     % Initialize newTableContent with non-data lines before header
-    newTableContent = lines(1:headerIdx-1);  % Include everything before header, like \hline
+    newTableContent = tableLines(1:headerIdx-1);  % Include everything before header, like \hline
 
     % Reorder headers
     reorderedHeaders = headers(newOrder);
     newTableContent{end+1} = [strjoin(reorderedHeaders, ' & '), ' \\']; % Add reordered header line
 
     % Process each data line after the header
-    for i = headerIdx+1:length(lines)-1
-        if ~contains(lines{i}, '\hline') && ~isempty(lines{i})
-            newRow = reorderRow(lines{i}, newOrder);
+    for i = headerIdx+1:length(tableLines)-1
+        if ~contains(tableLines{i}, '\hline') && ~isempty(tableLines{i})
+            newRow = reorderRow(tableLines{i}, newOrder);
             newTableContent{end+1} = newRow;
         else
-            newTableContent{end+1} = lines{i};  % Add non-data lines such as \hline directly
+            newTableContent{end+1} = tableLines{i};  % Add non-data lines such as \hline directly
         end
     end
 
