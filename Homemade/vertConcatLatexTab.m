@@ -43,25 +43,38 @@ function vertConcatLatexTab(folderPath, fileKeyword, tableCaption)
     
     % Construct the LaTeX table content
     numColumns = length(strsplit(header, '&'));
-    tabularxLine = ['\begin{tabularx}{\linewidth}{', repmat('|X', 1, numColumns), '|}'];
+    longtableLine = sprintf('\\begin{longtable}{|%s}', repmat('c|', 1, numColumns));
+    % tabularxLine = ['\begin{tabularx}{\linewidth}{', repmat('|X', 1, numColumns), '|}'];
     
     % Build the LaTeX table
     newTableContent = {};
-    newTableContent{end+1} = '\begin{table}[htbp]';
-    newTableContent{end+1} = ['\caption{' tableCaption '}'];
-    newTableContent{end+1} = '\centering';
-    newTableContent{end+1} = tabularxLine;
+    newTableContent{end+1} = longtableLine;
+    newTableContent{end+1} = ['\caption{' tableCaption '}\\'];
     newTableContent{end+1} = '\hline';
     newTableContent{end+1} = header;
     newTableContent{end+1} = '\hline';
+    newTableContent{end+1} = '\endfirsthead';
+
+    newTableContent{end+1} = ['\caption[]{(continued)} \\'];
+    newTableContent{end+1} = '\hline';
+    newTableContent{end+1} = header;
+    newTableContent{end+1} = '\hline';
+    newTableContent{end+1} = '\endhead';
+
+    newTableContent{end+1} = '\hline';
+    newTableContent{end+1} = '\endfoot';
+    newTableContent{end+1} = '\hline';
+    newTableContent{end+1} = '\endlastfoot';
+
     
     % Add all concatenated rows (already flattened)
     newTableContent = [newTableContent combinedRows];
     
     % End the table
-    newTableContent{end+1} = '\end{tabularx}';
+    % newTableContent{end+1} = '\end{tabularx}';
     newTableContent{end+1} = sprintf('\\label{tab:%s}', tableCaption);
-    newTableContent{end+1} = '\end{table}';
+    newTableContent{end+1} = '\end{longtable}';
+    % newTableContent{end+1} = '\end{table}';
     newTableContent{end+1} = '\FloatBarrier % Force LaTeX to place this table before continuing';
     
     % Write the final LaTeX table to a new file
