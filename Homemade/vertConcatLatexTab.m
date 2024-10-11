@@ -38,7 +38,9 @@ function vertConcatLatexTab(folderPath, fileKeyword, tableCaption)
         combinedRows = [combinedRows tabRows];  % Append rows
         
         % Add \hline after each file's rows
-        combinedRows{end+1} = '\hline';
+        if i < length(texFiles)
+            combinedRows{end+1} = '\hline';
+        end
     end
     
     % Construct the LaTeX table content
@@ -67,6 +69,12 @@ function vertConcatLatexTab(folderPath, fileKeyword, tableCaption)
     newTableContent{end+1} = '\endlastfoot';
 
     
+    % Remove "\\" from the last row
+    lastRow = strtrim(combinedRows{end});  % Trim any trailing spaces
+    if endsWith(lastRow, '\\')
+        combinedRows{end} = lastRow(1:end-2);  % Remove the trailing "\\" securely
+    end
+
     % Add all concatenated rows (already flattened)
     newTableContent = [newTableContent combinedRows];
     
