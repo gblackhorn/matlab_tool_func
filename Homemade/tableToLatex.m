@@ -63,6 +63,8 @@ function latexText = tableToLatex(tbl, varargin)
                 cellStr = sprintf('\\texttt{%s}', cellStr);  % Use \texttt for strings
             elseif iscell(cellValue) && isnumeric(cellValue{1})
                 cellStr = num2str(cellValue{1});
+            elseif iscell(cellValue) && islogical(cellValue{1})
+                cellStr = num2str(cellValue{1});
             elseif iscategorical(cellValue)
                 % Replace LaTeX special characters with their safe equivalents
                 cellStr = escapeLatexCharacters(char(cellValue));
