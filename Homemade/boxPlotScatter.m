@@ -121,8 +121,17 @@ function addDataNumber(barX, dataNumVal)
     text(barX, nNumY, nNumStr, 'vert', 'bottom', 'horiz', 'center', 'Color', 'white');
 end
 
-function stylePlot(gcaHandle, TickAngle, FontSize, FontWeight, barNames, barX)
+function stylePlot(gcaHandle, TickAngle, FontSize, FontWeight, barNames, barX, varargin)
     % Style the plot to match the bar plot
+    % Added optional 'yTickInterval' parameter for customizable y-ticks
+    
+    % Parse optional inputs
+    p = inputParser;
+    addOptional(p, 'yTickInterval', 2, @isnumeric); % Default interval is 2
+    parse(p, varargin{:});
+    yTickInterval = p.Results.yTickInterval;
+
+    % Modify x-axis
     set(gcaHandle, 'box', 'off');
     set(gcaHandle, 'TickDir', 'out');
     set(gcaHandle, 'FontSize', FontSize);
@@ -130,4 +139,11 @@ function stylePlot(gcaHandle, TickAngle, FontSize, FontWeight, barNames, barX)
     xtickangle(TickAngle);
     set(gcaHandle, 'XTick', barX);
     set(gcaHandle, 'xticklabel', barNames);
+
+    % Customize y-axis ticks
+    yLimits = ylim(gcaHandle);
+    yTicks = floor(yLimits(1)/yTickInterval)*yTickInterval : yTickInterval : ceil(yLimits(2)/yTickInterval)*yTickInterval;
+    set(gcaHandle, 'YTick', yTicks);
+    set(gcaHandle, 'YTickLabel', arrayfun(@num2str, yTicks, 'UniformOutput', false));
 end
+
