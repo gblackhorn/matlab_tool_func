@@ -90,8 +90,8 @@ function [statInfo,varargout] = ttestOrANOVA(dataCell,varargin)
                 % statInfo.method = 'Wilcoxon Rank Sum test for unpaired data';
 
                 % two-sample Kolmogorov-Smirnov test
-                [hVal,pVal] = kstest2(dataCell{1},dataCell{2});
-                statInfo.(statInfoFieldNames{1}) = 'Two-sample Kolmogorov-Smirnov test';
+                [pVal,hVal] = ranksum(dataCell{1},dataCell{2});
+                statInfo.(statInfoFieldNames{1}) = 'Mann-Whitney U Test (ranksum)';
             end
         end
 
