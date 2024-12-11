@@ -127,7 +127,7 @@ function stylePlot(gcaHandle, TickAngle, FontSize, FontWeight, barNames, barX, v
     
     % Parse optional inputs
     p = inputParser;
-    addOptional(p, 'yTickInterval', 2, @isnumeric); % Default interval is 2
+    addOptional(p, 'yTickInterval', 1, @isnumeric); % Default interval is 2
     parse(p, varargin{:});
     yTickInterval = p.Results.yTickInterval;
 

@@ -71,8 +71,9 @@ function [ciLower, ciUpper, bootstrap_pValue, bootstrapMedians, varargout] = boo
     ciUpper = prctile(bootstrapMedians, 100 * (1 - statAlpha / 2));
 
     % Calculate the bootstrap p-value
-    bootstrap_pValue = 2 * min(mean(bootstrapMedians >= observedMedianDiff), ...
-                               mean(bootstrapMedians <= observedMedianDiff));
+    % bootstrap_pValue = 2 * min(mean(bootstrapMedians >= observedMedianDiff), ...
+    %                            mean(bootstrapMedians <= observedMedianDiff));
+    bootstrap_pValue = 2 * min(mean(bootstrapMedians >= 0), mean(bootstrapMedians <= 0));
 
     % Create a summary table of statistics
     statMethodStr = sprintf('Bootstrap %s', label);

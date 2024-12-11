@@ -62,10 +62,7 @@ function [pValue, signedRankStats, varargout] = signedRankAnalysis(data1, vararg
         validDifferences = differences(~isnan(differences));
 
         % Perform the Wilcoxon Signed-Rank Test
-        [pValue, ~, stats] = signrank(validDifferences);
-
-        % Determine hypothesis test result
-        hValue = pValue < statAlpha;
+        [pValue, hValue, stats] = signrank(validDifferences);
 
         % Extract the signed-rank statistic
         signedRankStats = stats.signedrank;
