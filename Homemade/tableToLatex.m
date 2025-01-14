@@ -13,6 +13,15 @@ function latexText = tableToLatex(tbl, varargin)
     caption = p.Results.caption;
     label = p.Results.label;
     columnAdjust = p.Results.columnAdjust;
+
+    % Extract the folder path
+    saveDir = fileparts(filename);
+
+    % Check if the folder exists, and create it if it doesn't
+    if ~isfolder(saveDir)
+        mkdir(saveDir); % Create the folder path
+        fprintf('Created folder: %s\n', saveDir);
+    end
     
     % Initialize an empty string to store the LaTeX text
     latexText = '';
